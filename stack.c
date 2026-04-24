@@ -4,134 +4,165 @@ Q 1) Implement all stack operations using array and linked list: Push, Pop, disp
   Q 2) Reverse string using stack
 
 code 1:
- #include<stdio.h>
-#include<stdlib.h>
+ //using array  :
+#include<stdio.h>
+#define MAX 5
 
-struct node{
-    int data;
-    struct node*next;
-};
+int stack[MAX];
+int top=-1;
 
-struct node *top=NULL;
-
-struct node *createnode(int data){
-    struct node *newnode =(struct node*)malloc(sizeof(struct node));
-    newnode->data=data;
-    newnode->next=NULL;
-    return newnode;
-}
-
-void push(int data){
-    struct node *newnode=createnode(data);
-    if(top==NULL){
-        top=newnode;
-    }
+void push()
+{
+    int x;
+    if(top==MAX-1)
+        printf("Stack Overflow\n");
     else{
-        newnode->next=top;
-        top=newnode;
+        printf("Enter element: ");
+        scanf("%d",&x);
+        top++;
+        stack[top]=x;
     }
 }
 
-void pop(){
-    if(top==NULL){
-        printf("the list is empty\n");
-    }
+void pop()
+{
+    if(top==-1)
+        printf("Stack Underflow\n");
     else{
-        struct node *temp=top;
-        top=top->next;
-        free(temp);
+        printf("Deleted element = %d\n",stack[top]);
+        top--;
     }
 }
 
-void display(){
-    struct node *temp = top;
-
-    if(top == NULL){
-        printf("Stack is empty\n");
-        return;
-    }
-
-    printf("Stack: ");
-    while(temp != NULL){
-        printf("%d ", temp->data);
-        temp = temp->next;
-    }
-    printf("\n");
+void peek()
+{
+    if(top==-1)
+        printf("Stack empty\n");
+    else
+        printf("Top element = %d\n",stack[top]);
 }
 
-void peek(){
-    if(top == NULL){
-        printf("Stack is empty\n");
-    }
+void display()
+{
+    int i;
+    if(top==-1)
+        printf("Stack empty\n");
     else{
-        printf("Top element = %d\n", top->data);
+        for(i=top;i>=0;i--)
+            printf("%d ",stack[i]);
+        printf("\n");
     }
 }
 
-void reverse(){
-    struct node *prev = NULL;
-    struct node *current = top;
-    struct node *next = NULL;
-
-    while(current != NULL){
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
-    }
-
-    top=prev;
-}
-
-int main(){
-    int choice, data;
+int main()
+{
+    int ch;
 
     do{
-        printf("\n STACK MENU \n");
-        printf("1) Push element in stack\n");
-        printf("2) Pop element from stack\n");
-        printf("3) Display stack\n");
-        printf("4) Peek top element\n");
-        printf("5) Reverse stack\n");
-        printf("6) Exit\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+        printf("\n1.Push\n2.Pop\n3.Peek\n4.Display\n5.Exit\n");
+        scanf("%d",&ch);
 
-        if(choice == 1){
-            printf("Enter data: ");
-            scanf("%d", &data);
-            push(data);
+        switch(ch)
+        {
+            case 1: push(); break;
+            case 2: pop(); break;
+            case 3: peek(); break;
+            case 4: display(); break;
+            case 5: break;
+            default: printf("Invalid choice");
         }
 
-        else if(choice == 2){
-            pop();
-        }
-
-        else if(choice == 3){
-            display();
-        }
-
-        else if(choice == 4){
-            peek();
-        }
-
-        else if(choice == 5){
-            reverse();
-        }
-
-        else if(choice == 6){
-            printf("Exiting program...\n");
-        }
-
-        else{
-            printf("Invalid choice\n");
-        }
-
-    }while(choice != 6);
+    }while(ch!=5);
 
     return 0;
 }
 
+//using linked list:
+
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+   int data;
+   struct node *next;
+};
+
+struct node *top=NULL;
+
+void push()
+{
+   int x;
+   struct node *newnode;
+
+   newnode=(struct node*)malloc(sizeof(struct node));
+
+   printf("Enter element: ");
+   scanf("%d",&x);
+
+   newnode->data=x;
+   newnode->next=top;
+   top=newnode;
+}
+
+void pop()
+{
+   if(top==NULL)
+      printf("Stack Underflow\n");
+   else{
+      struct node *temp=top;
+      printf("Deleted element = %d\n",top->data);
+      top=top->next;
+      free(temp);
+   }
+}
+
+void peek()
+{
+   if(top==NULL)
+      printf("Stack empty\n");
+   else
+      printf("Top element = %d\n",top->data);
+}
+
+void display()
+{
+   struct node *temp=top;
+
+   if(top==NULL)
+      printf("Stack empty\n");
+   else{
+      while(temp!=NULL)
+      {
+         printf("%d ",temp->data);
+         temp=temp->next;
+      }
+      printf("\n");
+   }
+}
+
+int main()
+{
+   int ch;
+
+   do{
+      printf("\n1.Push\n2.Pop\n3.Peek\n4.Display\n5.Exit\n");
+      scanf("%d",&ch);
+
+      switch(ch)
+      {
+         case 1: push(); break;
+         case 2: pop(); break;
+         case 3: peek(); break;
+         case 4: display(); break;
+         case 5: break;
+         default: printf("Invalid choice");
+      }
+
+   }while(ch!=5);
+
+   return 0;
+}
 
 
 code 2:
